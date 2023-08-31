@@ -21,6 +21,12 @@ class Channel:
         self.video_count = json.loads(self.json_data)["items"][0]["statistics"]["videoCount"]
         self.viewCount = json.loads(self.json_data)["items"][0]["statistics"]["viewCount"]
 
+        # def __repr__(self) -> str:
+        #     return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity})"
+
+    def __str__(self) -> str:
+        return str(f"{self.title}({self.url})")
+
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
         print(self.json_data)
@@ -36,3 +42,21 @@ class Channel:
     @property
     def channel_id(self):
         return self.__channel_id
+
+    def __add__(self, other):
+        return self.subscriberCount + other.subscriberCount
+
+    def __sub__(self, other):
+        return int(self.subscriberCount) - int(other.subscriberCount)
+
+    def __lt__(self, other):
+        return self.subscriberCount < other.subscriberCount
+
+    def __le__(self, other):
+     return self.subscriberCount <= other.subscriberCount
+
+    def __gt__(self, other):
+        return self.subscriberCount > other.subscriberCount
+
+    def __ge__(self, other):
+        return self.subscriberCount >= other.subscriberCount
