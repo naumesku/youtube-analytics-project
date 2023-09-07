@@ -2,7 +2,6 @@ from src.channel import Channel
 from googleapiclient.discovery import build
 
 class Video(Channel):
-    # object_API = "youtube"
 
     def __init__(self, video_id) -> None:
         self.video_id = video_id
