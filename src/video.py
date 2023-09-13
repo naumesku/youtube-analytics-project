@@ -5,16 +5,24 @@ class Video(Channel):
 
     def __init__(self, video_id) -> None:
         self.video_id = video_id
-        self.video_response = Channel.get_service().videos().list(part='snippet,statistics,contentDetails,topicDetails',
-                                                     id=self.video_id
-                                                     ).execute()
-        self.video_title: str = self.video_response['items'][0]['snippet']['title']
-        self.view_count: int = self.video_response['items'][0]['statistics']['viewCount']
-        self.like_count: int = self.video_response['items'][0]['statistics']['likeCount']
-        self.comment_count: int = self.video_response['items'][0]['statistics']['commentCount']
+        try:
+            self.video_response = Channel.get_service().videos().list(part='snippet,statistics,contentDetails,topicDetails',
+                                                         id=self.video_id
+                                                         ).execute()
+            self.title: str = self.video_response['items'][0]['snippet']['title']
+            self.view_count: int = self.video_response['items'][0]['statistics']['viewCount']
+            self.like_count: int = self.video_response['items'][0]['statistics']['likeCount']
+            self.comment_count: int = self.video_response['items'][0]['statistics']['commentCount']
+        except IndexError:
+            print('Не верно задаано ID vidio.')
+            self.video_response = None
+            self.title: str = None
+            self.view_count: int = None
+            self.like_count: int = None
+            self.comment_count: int = None
 
     def __str__(self) -> str:
-        return str(f"{self.video_title}")
+        return str(f"{self.title}")
 
 class PLVideo(Video):
     def __init__(self, video_id, playlist_id) -> None:
